@@ -65,5 +65,26 @@ class CreateReminderTest extends TestCase
         $this->assertDatabaseCount('reminders', 0);
     }
 
+    public function test_should_be_not_able_make_a_reminder_to_other_user()
+    {
+        $users = User::factory(2)->create();
 
+        $this->actingAs($users[0]);
+
+        $payload = [
+            'friend_name' => 'laravel',
+            'date' => '27/08/2001',
+            'user_id' => '2'
+        ];
+
+        $response = $this
+            ->withHeader('Accept', 'Application/json')
+            ->post(Route('createReminder'), $payload);
+
+        $response->assertStatus(201);
+
+        $this->assertDatabaseHas('reminders', [
+            'user_id' => '1'
+        ]);
+    }
 }

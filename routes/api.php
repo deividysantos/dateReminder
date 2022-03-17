@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Reminder\CreateReminderController;
 use App\Http\Controllers\Reminder\DeleteReminderController;
+use App\Http\Controllers\Reminder\ReadReminderController;
+use App\Http\Controllers\Reminder\UpdateReminderController;
 use App\Http\Controllers\User\RegisterUserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +40,15 @@ Route::middleware('auth:sanctum')->group(function (){
 
     Route::delete('/reminders/{reminder}', DeleteReminderController::class)
         ->name('deleteReminder');
+
+    Route::put('/reminders/{reminder}', UpdateReminderController::class)
+        ->name('updateReminder');
+
+    Route::get('/reminders/', [ReadReminderController::class, 'getAll'])
+        ->name('readReminders');
+
+    Route::get('/reminders/{reminder}', [ReadReminderController::class, 'getById'])
+        ->name('readReminder');
 
 });
 

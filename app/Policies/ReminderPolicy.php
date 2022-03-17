@@ -5,10 +5,24 @@ namespace App\Policies;
 use App\Models\Reminder;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
+
 
 class ReminderPolicy
 {
     use HandlesAuthorization;
+
+    /**
+     * Determine whether the user can read the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Reminder  $reminder
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function read(User $user, Reminder $reminder)
+    {
+        return $user->id === $reminder->user_id;
+    }
 
     /**
      * Determine whether the user can create models.
@@ -30,7 +44,7 @@ class ReminderPolicy
      */
     public function update(User $user, Reminder $reminder)
     {
-        //
+        return $user->id === $reminder->user_id;
     }
 
     /**
@@ -42,6 +56,6 @@ class ReminderPolicy
      */
     public function delete(User $user, Reminder $reminder)
     {
-        return $user->id == $reminder->user_id;
+        return $user->id === $reminder->user_id;
     }
 }
