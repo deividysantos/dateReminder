@@ -48,7 +48,7 @@ class CreateReminderTest extends TestCase
         ]);
     }
 
-    public function test_should_be_not_able_make_a_reminder_no_user_logged()
+    public function test_should_not_be_able_make_a_reminder_no_user_logged()
     {
         $payload = [
             'friend_name' => 'laravel',
@@ -65,7 +65,7 @@ class CreateReminderTest extends TestCase
         $this->assertDatabaseCount('reminders', 0);
     }
 
-    public function test_should_be_not_able_make_a_reminder_to_other_user()
+    public function test_should_not_be_able_make_a_reminder_to_other_user()
     {
         $users = User::factory(2)->create();
 

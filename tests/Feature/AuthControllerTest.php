@@ -65,4 +65,18 @@ class AuthControllerTest extends TestCase
 
         $this->assertDatabaseCount('personal_access_tokens', 0);
     }
+
+    public function test_should_not_be_able_make_login_without_registered_user()
+    {
+
+        $response = $this
+            ->withHeader('Accept', 'application/json')
+            ->post(Route('login'),
+                [
+                    'email' => 'example@test.com',
+                    'password' => 'password'
+                ]);
+
+        $response->assertStatus(422);
+    }
 }

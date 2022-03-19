@@ -10,7 +10,7 @@ class RegisterUserControllerTest extends TestCase
 
     use refreshdatabase;
 
-    public function test_should_be_able_make_to_register()
+    public function test_should_be_able_make_register()
     {
         $response = $this
             ->withHeader('Accept', 'application/json')

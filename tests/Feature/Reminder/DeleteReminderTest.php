@@ -41,7 +41,7 @@ class DeleteReminderTest extends TestCase
         $this->assertDatabaseCount('reminders', 0);
     }
 
-    public function test_should_be_not_able_delete_by_other_user()
+    public function test_should_not_be_able_delete_by_other_user()
     {
         $user = User::factory(2)->create();
         $this->actingAs($user[0]);
