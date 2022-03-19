@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Reminder;
 
+use App\Http\Requests\Reminder\CreateReminderRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateReminderRequest;
-use App\Models\Reminder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function response;
+use Illuminate\Http\JsonResponse;
+use App\Models\Reminder;
 
 class CreateReminderController extends Controller
 {
-    public function __invoke(CreateReminderRequest $request)
+    public function __invoke(CreateReminderRequest $request): JsonResponse
     {
          $credentials = [
              'friend_name' => $request['friend_name'],
@@ -19,10 +18,13 @@ class CreateReminderController extends Controller
              'user_id' => Auth::user()->id
          ];
 
-         if(! $reminder = Reminder::query()->create($credentials))
-             return response()->json([
-                 'message' => 'server error'
-             ], 500);
+        try {
+            $reminder = Reminder::query()->create($credentials);
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => 'server error'
+            ], 500);
+        }
 
          return response()->json([
              'message' => 'success',

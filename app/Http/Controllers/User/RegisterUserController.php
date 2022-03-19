@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
-use App\Models\User;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use function response;
+use Illuminate\Http\JsonResponse;
+use App\Models\User;
 
 class RegisterUserController extends Controller
 {
@@ -15,19 +14,20 @@ class RegisterUserController extends Controller
     {
         $request['password'] = Hash::make($request['password']);
 
-        $user = User::query()
-            ->create(
-                $request->only([
-                    'name',
-                    'email',
-                    'password'
-                ])
+        try {
+            $user = User::query()
+                ->create($request->only([
+                        'name',
+                        'email',
+                        'password'
+                    ]
+                )
             );
-
-        if(!$user)
+        }catch (\Exception $e){
             return response()->json([
-               'message' => 'server error'
+                'message' => 'server error'
             ], 500);
+        }
 
         return response()->json([
             'message' => 'success',

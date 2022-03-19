@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Reminder;
 
+use Illuminate\Database\Eloquent\Collection;
 use App\Http\Controllers\Controller;
-use App\Models\Reminder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
+use App\Models\Reminder;
 
 class ReadReminderController extends Controller
 {
-    public function getAll()
+    public function getAll(): Collection|array
     {
         $userId = Auth::user()->id;
 
@@ -18,7 +20,7 @@ class ReadReminderController extends Controller
             ->get();
     }
 
-    public function getById(Reminder $reminder)
+    public function getById(Reminder $reminder): JsonResponse
     {
         $this->authorize('read', $reminder);
 
